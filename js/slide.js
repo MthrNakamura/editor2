@@ -32,20 +32,27 @@ SlideManager.prototype = {
 				this.slideSets[one] = this.slideSets[another];
 				this.slideSets[another] = temp;
 		}
+	},
+	/* スライドを保存 */
+	save: function(idx, data) {
+		this.slideSets[idx].slide.el = data;
 	}
 };
 
 /* スライド本体 */
 var Slide = function(slideType) {
 	this.slideType = slideType;
+	this.el = '<div class="slide" contenteditable="true"></div>';
 };
 
 /* スライドのサムネイル */
-var Thumbnail = function() {};
+var Thumbnail = function() {
+	this.el = '<div class="pagePreview"></div>';
+};
 
 /* スライドとサムネイルのセット */
 var SlideSet = function(slideType) {
 	this.id = id; id = id + 1;
 	this.slide = new Slide(slideType);
-	this.Thumbnail = new Thumbnail();
+	this.thumbnail = new Thumbnail();
 };

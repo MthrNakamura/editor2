@@ -1,0 +1,135 @@
+$allSlidesWidth: 300;
+$allSlidesHeight: 800;
+$toolPanelWidth: 300;
+$toolPanelHeight: 800;
+$slidePanelWidth: 900;
+$slidePanelHeight: 800;
+$slideBaseWidth: #{$slidePanelWidth * 4/5};
+$slideBaseHeight: #{$slidePanelHeight * 4/5};
+$titleLabelWidth: 100;
+$titleLabelHeight: 100;
+$pageToolHeight: 80;
+$pageTollBtnWidth: 150;
+$pagePreviewWidth: #{$allSlidesWidth * 9/10};
+$pagePreviewHeight: 180;
+
+body {
+	width: #{$toolPanelWidth + $slidePanelWidth}px;
+	background-color: #373535;
+}
+
+.allSlides {
+	width: #{$allSlidesWidth}px;
+	height: #{$allSlidesHeight}px;
+	float: left;
+	background-color: #e2e1e1;
+	overflow: scroll;
+}
+
+.pageTool {
+	width: #{$allSlidesWidth}px;
+	height: #{$pageToolHeight}px;
+	position: sticky;
+}
+
+.pageToolBtn {
+	background-color: #e2e1e1;
+	width: #{$pageTollBtnWidth}px;
+	height: #{$pageToolHeight}px;
+	line-height: #{$pageToolHeight}px;
+	text-align: center;
+	float: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	&:hover {
+		background-color: #fff;
+	}
+}
+
+.previewArea {
+	width: #{$allSlidesWidth};
+	overflow: scroll;
+	padding: 0;
+	margin: 0;
+}
+
+.pagePreview {
+	list-style-type: none;
+	width: #{$pagePreviewWidth - 2}px;
+	height: #{$pagePreviewHeight}px;
+	margin-left: 14px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	border: 1px solid #6a6565;
+	border-radius: 4px 4px 4px 4px;
+	background-color: #fff;
+	
+}
+
+.focused {
+	background-color: #6ef9e5;
+}
+
+.toolPanel {
+	width: #{$toolPanelWidth}px;
+	height: #{$toolPanelHeight}px;
+	float: left;
+}
+
+.slidePanel {
+	width: #{$slidePanelWidth}px;
+	height: #{$slidePanelHeight}px;
+	float: left;
+}
+
+.slideBase {
+	position: absolute;
+	border: 1px dotted #000;
+	width: #{$slideBaseWidth}px;
+	height: #{$slideBaseHeight}px;
+	margin-left: #{$slidePanelWidth * 1/10}px;
+	margin-top: #{$slidePanelHeight * 1/10}px;
+}
+
+.slide {
+	position: absolute;
+	background-color: #FFFFFF;
+	width: #{$slideBaseWidth}px;
+	height: #{$slideBaseHeight}px;
+}
+
+.slideObj {
+	position: absolute;
+	text-align: center;
+	&:hover {
+		background-color: #EEEEEE;
+	}
+	.disabled {
+		background-color:#c4eef9;
+	}
+}
+
+.titleLabel {
+	width: 680px;
+	top: 20px;
+	left: 20px;
+	height: 150px;
+	font-size:48px;
+}
+
+.itemArea {
+	top: 200px;
+	width: 680px;
+	left: 20px;
+	height: 400px;
+}
+
+.itemList {
+	margin:30px;
+	padding:0;
+	font-size: 32px;
+}
+
+.itemListElem {
+	text-align: left;
+}

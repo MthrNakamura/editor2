@@ -4,17 +4,8 @@
     <meta charset='utf-8'>
     <title>Edit</title>
     <link href='css/editor.css' rel='stylesheet'>
-    <script id='slide-template-1' type='text/template'>
-      <div class='slide'>
-        <div class='slideObj titleLabel' contenteditable='true'>title0</div>
-        <div class='slideObj itemArea'>
-          <ul class='itemList' contenteditable='true'>
-            <li class='itemListElem' contenteditable='true'>list</li>
-          </ul>
-        </div>
-      </div>
-    </script>
     <script src='js/jquery-2.0.2.min.js'></script>
+    <script src='js/jquery.sortable.js'></script>
     <script src='js/slide.js'></script>
     <script src='js/editor.js'></script>
   </head>
@@ -24,7 +15,7 @@
       <div class='pageToolBtn rmPage'>Remove</div>
     </div>
     <div class='allSlides'>
-      <div class='previewArea'></div>
+      <ul class='previewArea'></ul>
     </div>
     <div class='slidePanel'>
       <div class='slideBase'></div>

@@ -5,15 +5,8 @@
     %title<
       Edit
     %link(rel="stylesheet" href="css/editor.css")
-    %script(type="text/template" id="slide-template-1")
-      .slide
-        .slideObj.titleLabel(contenteditable="true")<
-          title0
-        .slideObj.itemArea
-          %ul.itemList(contenteditable="true")
-            %li.itemListElem(contenteditable="true")<
-              list
     %script(src="js/jquery-2.0.2.min.js")
+    %script(src="js/jquery.sortable.js")
     %script(src="js/slide.js")
     %script(src="js/editor.js")
   %body
@@ -23,6 +16,6 @@
       .pageToolBtn.rmPage<
         Remove
     .allSlides
-      .previewArea
+      %ul.previewArea
     .slidePanel
       .slideBase

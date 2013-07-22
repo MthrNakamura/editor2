@@ -1,7 +1,7 @@
 var id = 0;
 /* スライドの管理クラス */
 var SlideManager = function() {
-	this.numSlide = 0; //スライドの枚数
+	this.length = 0; //スライドの枚数
 	this.slideSets = []; //スライドセットを格納
 };
 
@@ -13,7 +13,7 @@ SlideManager.prototype = {
 		} else {
 			this.slideSets.splice(idx, 0, slideSet);
 		}
-		this.numSlide = this.numSlide + 1;
+		this.length = this.length + 1;
 	},
 	/* スライドセットを削除 */
 	remove: function(idx) {
@@ -22,7 +22,7 @@ SlideManager.prototype = {
 		} else {
 			this.slideSets.splice(idx, 1);
 		}
-		this.numSlide = this.numSlide - 1;
+		this.length = this.length - 1;
 	},
 	/* スライドを並べ替え */
 	exchange: function(one, another) {
@@ -47,7 +47,7 @@ var Slide = function(slideType) {
 
 /* スライドのサムネイル */
 var Thumbnail = function() {
-	this.el = '<div class="pagePreview"></div>';
+	this.el = '<li class="pagePreview sortable"></li>';
 };
 
 /* スライドとサムネイルのセット */

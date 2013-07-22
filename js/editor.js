@@ -12,8 +12,10 @@ $(function() {
 	};
 	/* サムネイルを選択したとき */
 	var clickedPreview = function(e) {
-		/* これまで選択していたスライドを保存 */
-		slideManager.save(selected, $('.slideBase').html());
+		if (selected != -1) {
+			/* これまで選択していたスライドを保存 */
+			slideManager.save(selected, $('.slideBase').html());
+		}
 		/* サムネイルをフォーカス */
 		focusPreview(selected, $(e.target).index());
 		/* サムネイルを選択状態にする */
@@ -31,27 +33,26 @@ $(function() {
 	});
 	/* スライドを削除 */
 	$('.rmPage').click(function(){
+		if (selected == -1) return ;
 		slideManager.remove(selected);
+		selected = selected - 1;
 		showSlideSet();
 		focusPreview(-1, selected);
 	});
 	/* スライドとサムネイルを表示 */
 	function showSlideSet() {
+		
 		/* サムネイルを表示 */
 		$('.previewArea').empty(); //現在表示しているサムネイルを削除
-		for (var i = 0; i < slideManager.numSlide; i = i + 1) {
+		for (var i = 0; i < slideManager.length; i = i + 1) {
 			$('.previewArea').append(slideManager.slideSets[i].thumbnail.el);
 		}
 		$('.pagePreview').click(clickedPreview);
 		
 		/* スライドを表示 */
 		$('.slideBase').empty(); //現在表示しているスライドを削除
-		$('.slideBase').append(slideManager.slideSets[selected].slide.el);
+		if (slideManager.slideSets[selected]!=undefined)
+			$('.slideBase').append(slideManager.slideSets[selected].slide.el);
+		
 	}
-
-
-
-
-
-
 });

@@ -136,3 +136,8 @@ body {
 .itemListElem {
   text-align: left;
 }
+
+/* line 137, ../sass/editor.scss */
+.sortable-placeholder {
+  background-color: #d4f5fd;
+}

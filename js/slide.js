@@ -33,6 +33,21 @@ SlideManager.prototype = {
 				this.slideSets[another] = temp;
 		}
 	},
+	/* 指定したスライドを指定した場所へ挿入する */
+	sort: function(one, dest) {
+		var temp = this.slideSets[one];
+		if (one < dest) {
+			for (var i = one; i < dest; i = i + 1) {
+				this.slideSets[i] = this.slideSets[i+1];
+			}
+			this.slideSets[dest] = temp;
+		} else {
+			for (var i = one; i > dest; i = i - 1) {
+				this.slideSets[i] = this.slideSets[i-1];
+			}
+			this.slideSets[dest] = temp;
+		}
+	},
 	/* スライドを保存 */
 	save: function(idx, data) {
 		this.slideSets[idx].slide.el = data;
@@ -47,7 +62,7 @@ var Slide = function(slideType) {
 
 /* スライドのサムネイル */
 var Thumbnail = function() {
-	this.el = '<li class="pagePreview sortable"></li>';
+	this.el = '<li class="pagePreview"></li>';
 };
 
 /* スライドとサムネイルのセット */

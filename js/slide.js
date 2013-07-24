@@ -3,6 +3,7 @@ var id = 0;
 var SlideManager = function() {
 	this.length = 0; //スライドの枚数
 	this.slideSets = []; //スライドセットを格納
+	this.clipBoard = []; //スライドコピー用のバッファ
 };
 
 SlideManager.prototype = {
@@ -40,17 +41,37 @@ SlideManager.prototype = {
 			for (var i = one; i < dest; i = i + 1) {
 				this.slideSets[i] = this.slideSets[i+1];
 			}
-			this.slideSets[dest] = temp;
 		} else {
 			for (var i = one; i > dest; i = i - 1) {
 				this.slideSets[i] = this.slideSets[i-1];
 			}
-			this.slideSets[dest] = temp;
 		}
+		this.slideSets[dest] = temp;
 	},
 	/* スライドを保存 */
 	save: function(idx, data) {
 		this.slideSets[idx].slide.el = data;
+	},
+	/* スライドをクリップボードにコピー */
+	copy: function(idx) {
+		this.clipBoard.pop();
+		var temp = new SlideSet();
+		temp.slide = $.extend(true, {}, this.slideSets[idx].slide);
+		temp.thumbnail = $.extend(true, {}, this.slideSets[idx].thumbnail);
+		this.clipBoard.push(temp);
+	},
+	/* スライドを指定した場所へペーストする */
+	paste: function(dest) {
+		/* 末尾に追加するとき */
+		if (dest == this.length) {
+			this.slideSets.push(this.clipBoard.pop());
+		} else { /* 間に追加するとき */
+			for (var i = dest; i < this.length; i = i + 1) {
+				this.slideSets[i+1] = this.slideSets[i];
+			}
+			this.slideSets[dest] = this.clipBoard.pop();
+		}
+		this.length = this.length + 1;
 	}
 };
 

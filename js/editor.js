@@ -72,6 +72,49 @@ $(function() {
 		focusPreview(-1, selected);
 	};
 	
+	/* ページを保存する */
+	var savePage = function() {
+		/* ここまで編集していたスライドをメモリに保存 */
+		if (slideManager.length>0)
+			slideManager.save(selected, $('.slideBase').html());
+		/* スライドをローカルストレージに保存する */
+		if (window.File) {
+			var fileName = "";
+			while (true) {
+				fileName = window.prompt("Save as", "");
+				if (fileName!=null && fileName.charAt(0)!='')
+					break;
+				if ((fileName==null || fileName.charAt(0)=='')) {
+					if (window.confirm("Cancel?"))
+						return ;
+					continue;
+				} else if (!window.confirm("Cancel2?")){
+					break;
+				}
+			}
+			if (window.localStorage.getItem(fileName+".json")!=null) {
+				if (!window.confirm("Really overwrite?")) return ;
+			}
+			slideManager.saveSlides(fileName+".json");
+			window.alert("saved");
+		} else {
+			window.alert("no file API");
+		}	
+	};
+	
+	/* ページをロードする */
+	var loadPage = function() {
+		/* ユーザにロードするページを選択させる */
+		var loadingIndex = showModalDialog("openFile.html", this, "dialogWidth: 570px; dialogHeight: 400px; center;");
+		/* 選択されたページをlocalStorageから読み出す */
+		var loadedPage = localStorage.getItem(localStorage.key(loadingIndex));
+		/* 読み出したページを表示する */
+		slideManager.loadPageFromJSON(loadedPage);
+		selected = 0;
+		showSlideSet();
+		focusPreview(-1, selected);
+	};
+	
 	/* サムネイルをフォーカスする */
 	var focusPreview = function(pre, cur) {
 		if (pre >= 0) {
@@ -107,7 +150,10 @@ $(function() {
 	});
 	/* スライドを削除 */
 	$('.rmPage').click(removeSlide);
-	
+	/* スライドを保存 */
+	$('.savePage').click(savePage);
+	/* スライドをロードする */
+	$('.loadPage').click(loadPage);
 	/* スライドとサムネイルを表示 */
 	function showSlideSet() {
 		/* サムネイルを表示 */
@@ -138,6 +184,7 @@ $(function() {
 		
 		/* スライドを表示 */
 		$('.slideBase').empty(); //現在表示しているスライドを削除
+		//window.alert(slideManager.slideSets[selected].slide.el);
 		if (slideManager.slideSets[selected]!=undefined) {
 			$('.slideBase').append(slideManager.slideSets[selected].slide.el);
 		}

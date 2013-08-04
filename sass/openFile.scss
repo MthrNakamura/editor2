@@ -1,0 +1,19 @@
+$fileIconWidth: 120;
+$fileIconHeight: 80;
+
+body {
+	overflow: scroll;
+}
+
+.fileIcon {
+	width: #{$fileIconWidth}px;
+	height: #{$fileIconHeight}px;
+	float: left;
+	background-color: #53f78d;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-top: 20px;
+	&:hover {
+		background-color: #75f9af;
+	}
+}

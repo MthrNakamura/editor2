@@ -7,6 +7,13 @@ var SlideManager = function() {
 };
 
 SlideManager.prototype = {
+	/* 初期化 */
+	init: function() {
+		id = 0;
+		this.length = 0;
+		this.slideSets = [];
+		this.clipBoard = [];	
+	},
 	/* 新しいスライドセットを追加する */
 	add: function(slideSet, idx) {
 		if (idx==null || idx < 0 || idx > this.slideSets.length) {
@@ -66,24 +73,104 @@ SlideManager.prototype = {
 		if (dest == this.length) {
 			this.slideSets.push(this.clipBoard.pop());
 		} else { /* 間に追加するとき */
-			for (var i = dest; i < this.length; i = i + 1) {
-				this.slideSets[i+1] = this.slideSets[i];
+			for (var i = this.length; i > dest; i = i - 1) {
+				this.slideSets[i] = this.slideSets[i-1];
 			}
+			/* 張りつけ後もクリップボードの内容は残しておく */
 			this.slideSets[dest] = this.clipBoard.pop();
+			var temp = new SlideSet();
+			temp.slide = $.extend(true, {},this.slideSets[dest].slide);
+			temp.thumbnail = $.extend(true, {}, this.slideSets[dest].thumbnail);
+			this.clipBoard.push(temp);
 		}
 		this.length = this.length + 1;
+	},
+	/* スライドをローカルファイルに保存 */
+	saveSlides: function(fileName) {
+		if (!window.localStorage) {
+			window.alert("ファイルを保存できません。");
+			return ;
+		}
+		window.localStorage.setItem(fileName, this.getJSON());
+	},
+	/* 保持するスライドのJSON形式のデータを返す */
+	getJSON: function() {
+		var json = '{"all":{"len":'+this.length+'},"indiv":[';
+		for (var i = 0; i < this.length; i = i + 1) {
+			json = json + this.slideSets[i].getJSON() + ',';
+		}
+		json = json.slice(0,-1);//末尾の','を削除
+		json = json + ']}';
+		return json;
+	},
+	/* 保持するスライドのデータサイズを取得する */
+	getDataSize: function() {
+		var size = 0;
+		for (var i = 0; i < this.length; i = i + 1) {
+			size = size + this.slideSets[i];
+		}
+		return size;
+	},
+	/* 与えられたJSONファイルからスライドを構成する */
+	loadPageFromJSON: function(json) {
+		/* JSONデータをパース */
+		var loadData = JSON.parse(json);
+		/* パース結果からスライドを構成 */
+		this.init();
+		/* スライド全体データ */
+		this.length = loadData.all.len; //スライド枚数
+		/* スライドセットごと */
+		for (var i = 0; i < this.length; i = i + 1) {
+			this.slideSets[i] = new SlideSet();
+			this.slideSets[i].slide.initWithData(loadData.indiv[i].set[0].type, loadData.indiv[i].set[0].slide.data);
+			this.slideSets[i].thumbnail.initWithData(loadData.indiv[i].set[0].thumb.data);
+		}
 	}
 };
 
 /* スライド本体 */
-var Slide = function(slideType) {
-	this.slideType = slideType;
-	this.el = '<div class="slide" contenteditable="true"></div>';
+var Slide = function(type) {
+	this.slideType = type;
+	this.el = "<div class='slide' contenteditable='true'></div>";
+};
+
+Slide.prototype = {
+	/* データを設定 */
+	initWithData: function(type, data) {
+		this.type = type;
+		this.el = data;	
+	},
+	/* データサイズを返す */
+	getDataSize: function() {
+		return this.el.length /* データのバイト数 */
+				+ 1;          /* スライドタイプのバイト数 */
+	},
+	/* JSON形式のデータを返す */
+	getJSON: function() {
+		var data = (this.el).replace(/"/g, '\\"');
+		return '{"slide":{"type":"'+this.type+'","data":"'+data+'"}';
+	}
 };
 
 /* スライドのサムネイル */
 var Thumbnail = function() {
-	this.el = '<li class="pagePreview"></li>';
+	this.el = "<li class='pagePreview'></li>";
+};
+
+Thumbnail.prototype = {
+	/* 初期化 */
+	initWithData: function(data) {
+		this.el = data;	
+	},
+	/* データサイズを返す */
+	getDataSize: function() {
+		return this.el.length; /* データのバイト数 */
+	},
+	/* JSON形式のデータを返す */
+	getJSON: function() {
+		var data = (this.el).replace(/"/g, '\\"');
+		return '"thumb":{"data":"'+data+'"}}';
+	}
 };
 
 /* スライドとサムネイルのセット */
@@ -92,3 +179,11 @@ var SlideSet = function(slideType) {
 	this.slide = new Slide(slideType);
 	this.thumbnail = new Thumbnail();
 };
+
+SlideSet.prototype = {
+	/* JSON形式のデータを返す */	
+	getJSON: function() {
+		return '{"set":['+this.slide.getJSON()+','+this.thumbnail.getJSON()+']}';
+	}
+};
+

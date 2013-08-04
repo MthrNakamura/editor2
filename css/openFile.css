@@ -1,0 +1,19 @@
+/* line 4, ../sass/openFile.scss */
+body {
+  overflow: scroll;
+}
+
+/* line 8, ../sass/openFile.scss */
+.fileIcon {
+  width: 120px;
+  height: 80px;
+  float: left;
+  background-color: #53f78d;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 20px;
+}
+/* line 16, ../sass/openFile.scss */
+.fileIcon:hover {
+  background-color: #75f9af;
+}

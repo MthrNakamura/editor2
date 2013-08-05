@@ -1,7 +1,16 @@
 $(function() {
 	var selected = -1;
+	var currentFile = null;
 	var slideManager = new SlideManager();
 	var slideEditMode = false;
+
+	/* 初期化 */
+	function init() {
+		selected = -1;
+		currentFile = null;
+		slideManager = new SlideManager();
+		slideEditMode = false;
+	}
 
 	/* スライド編集モード */
 	$('.slideBase').click(function() {
@@ -74,24 +83,31 @@ $(function() {
 	
 	/* ページを保存する */
 	var savePage = function() {
+		//localStorage.clear();
 		/* ここまで編集していたスライドをメモリに保存 */
 		if (slideManager.length>0)
 			slideManager.save(selected, $('.slideBase').html());
 		/* スライドをローカルストレージに保存する */
 		if (window.File) {
 			var fileName = "";
-			while (true) {
-				fileName = window.prompt("Save as", "");
-				if (fileName!=null && fileName.charAt(0)!='')
-					break;
-				if ((fileName==null || fileName.charAt(0)=='')) {
-					if (window.confirm("Cancel?"))
-						return ;
-					continue;
-				} else if (!window.confirm("Cancel2?")){
-					break;
+			if (currentFile == null) {
+				window.alert(currentFile);
+				while (true) {
+					fileName = window.prompt("Save as", "");
+					if (fileName!=null && fileName.charAt(0)!='')
+						break;
+					if ((fileName==null || fileName.charAt(0)=='')) {
+						if (window.confirm("Cancel?"))
+							return ;
+						continue;
+					} else if (!window.confirm("Cancel2?")){
+						break;
+					}
 				}
+			} else {
+				fileName = currentFile;
 			}
+			fileName = fileName.replace(/\.json/, "");
 			if (window.localStorage.getItem(fileName+".json")!=null) {
 				if (!window.confirm("Really overwrite?")) return ;
 			}
@@ -105,14 +121,34 @@ $(function() {
 	/* ページをロードする */
 	var loadPage = function() {
 		/* ユーザにロードするページを選択させる */
-		var loadingIndex = showModalDialog("openFile.html", this, "dialogWidth: 570px; dialogHeight: 400px; center;");
-		/* 選択されたページをlocalStorageから読み出す */
-		var loadedPage = localStorage.getItem(localStorage.key(loadingIndex));
-		/* 読み出したページを表示する */
-		slideManager.loadPageFromJSON(loadedPage);
-		selected = 0;
+		var loadingIndex = showModalDialog("openFile.html", this, 
+			"dialogWidth: 570px;dialogHeight: 400px;center;status: false;help:false;minimize:false;maximize:false;");
+		if (loadingIndex != undefined) {
+			/* 選択されたページをlocalStorageから読み出す */
+			currentFile = localStorage.key(loadingIndex);
+			var loadedPage = localStorage.getItem(currentFile);
+			/* 読み出したページを表示する */
+			slideManager.loadPageFromJSON(loadedPage);
+			selected = 0;
+			showSlideSet();
+			focusPreview(-1, selected);
+		}
+	};
+	
+	/* 新規スライドを作成する */
+	var newPage = function() {
+		/* 現在編集中のスライドがあれば保存する */
+		if (slideManager.length > 0 && 
+			window.confirm("編集中のスライドを保存しますか?")) {
+				savePage();
+		}
+		init();
 		showSlideSet();
-		focusPreview(-1, selected);
+	};
+	/* スライドを再生する */
+	var playPage = function(e) {
+		e.preventDefault();
+		$('.slide').reveal();
 	};
 	
 	/* サムネイルをフォーカスする */
@@ -154,6 +190,10 @@ $(function() {
 	$('.savePage').click(savePage);
 	/* スライドをロードする */
 	$('.loadPage').click(loadPage);
+	/* 新規スライドを作成 */
+	$('.newPage').click(newPage);
+	/* スライドを再生 */
+	$('.palyAll').click(playPage);
 	/* スライドとサムネイルを表示 */
 	function showSlideSet() {
 		/* サムネイルを表示 */

@@ -9,6 +9,7 @@ $slideBaseHeight: #{$slidePanelHeight * 4/5};
 $titleLabelWidth: 100;
 $titleLabelHeight: 100;
 $pageToolHeight: 80;
+$pageToolBtnHeight: 80;
 $pageTollBtnWidth: 150;
 $pagePreviewWidth: #{$allSlidesWidth * 9/10};
 $pagePreviewHeight: 180;
@@ -35,7 +36,7 @@ body {
 .pageToolBtn {
 	background-color: #e2e1e1;
 	width: #{$pageTollBtnWidth}px;
-	height: #{$pageToolHeight}px;
+	height: #{$pageToolBtnHeight}px;
 	line-height: #{$pageToolHeight}px;
 	text-align: center;
 	float: left;

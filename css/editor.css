@@ -1,10 +1,10 @@
-/* line 16, ../sass/editor.scss */
+/* line 17, ../sass/editor.scss */
 body {
   width: 1200px;
   background-color: #373535;
 }
 
-/* line 21, ../sass/editor.scss */
+/* line 22, ../sass/editor.scss */
 .allSlides {
   width: 300px;
   height: 800px;
@@ -13,14 +13,14 @@ body {
   overflow: scroll;
 }
 
-/* line 29, ../sass/editor.scss */
+/* line 30, ../sass/editor.scss */
 .pageTool {
   width: 300px;
   height: 80px;
   position: sticky;
 }
 
-/* line 35, ../sass/editor.scss */
+/* line 36, ../sass/editor.scss */
 .pageToolBtn {
   background-color: #e2e1e1;
   width: 150px;
@@ -31,12 +31,12 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
 }
-/* line 44, ../sass/editor.scss */
+/* line 45, ../sass/editor.scss */
 .pageToolBtn:hover {
   background-color: #fff;
 }
 
-/* line 49, ../sass/editor.scss */
+/* line 50, ../sass/editor.scss */
 .previewArea {
   width: 300;
   overflow: scroll;
@@ -44,7 +44,7 @@ body {
   margin: 0;
 }
 
-/* line 56, ../sass/editor.scss */
+/* line 57, ../sass/editor.scss */
 .pagePreview {
   list-style-type: none;
   width: 270-2px;
@@ -57,26 +57,26 @@ body {
   background-color: #fff;
 }
 
-/* line 69, ../sass/editor.scss */
+/* line 70, ../sass/editor.scss */
 .focused {
   background-color: #6ef9e5;
 }
 
-/* line 73, ../sass/editor.scss */
+/* line 74, ../sass/editor.scss */
 .toolPanel {
   width: 300px;
   height: 800px;
   float: left;
 }
 
-/* line 79, ../sass/editor.scss */
+/* line 80, ../sass/editor.scss */
 .slidePanel {
   width: 900px;
   height: 800px;
   float: left;
 }
 
-/* line 85, ../sass/editor.scss */
+/* line 86, ../sass/editor.scss */
 .slideBase {
   position: absolute;
   border: 1px dotted #000;
@@ -86,7 +86,7 @@ body {
   margin-top: 80px;
 }
 
-/* line 94, ../sass/editor.scss */
+/* line 95, ../sass/editor.scss */
 .slide {
   position: absolute;
   background-color: #FFFFFF;
@@ -94,21 +94,21 @@ body {
   height: 640px;
 }
 
-/* line 101, ../sass/editor.scss */
+/* line 102, ../sass/editor.scss */
 .slideObj {
   position: absolute;
   text-align: center;
 }
-/* line 104, ../sass/editor.scss */
+/* line 105, ../sass/editor.scss */
 .slideObj:hover {
   background-color: #EEEEEE;
 }
-/* line 107, ../sass/editor.scss */
+/* line 108, ../sass/editor.scss */
 .slideObj .disabled {
   background-color: #c4eef9;
 }
 
-/* line 112, ../sass/editor.scss */
+/* line 113, ../sass/editor.scss */
 .titleLabel {
   width: 680px;
   top: 20px;
@@ -117,7 +117,7 @@ body {
   font-size: 48px;
 }
 
-/* line 120, ../sass/editor.scss */
+/* line 121, ../sass/editor.scss */
 .itemArea {
   top: 200px;
   width: 680px;
@@ -125,19 +125,19 @@ body {
   height: 400px;
 }
 
-/* line 127, ../sass/editor.scss */
+/* line 128, ../sass/editor.scss */
 .itemList {
   margin: 30px;
   padding: 0;
   font-size: 32px;
 }
 
-/* line 133, ../sass/editor.scss */
+/* line 134, ../sass/editor.scss */
 .itemListElem {
   text-align: left;
 }
 
-/* line 137, ../sass/editor.scss */
+/* line 138, ../sass/editor.scss */
 .sortable-placeholder {
   background-color: #d4f5fd;
 }

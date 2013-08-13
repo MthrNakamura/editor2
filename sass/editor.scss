@@ -4,8 +4,8 @@ $toolPanelWidth: 300;
 $toolPanelHeight: 800;
 $slidePanelWidth: 900;
 $slidePanelHeight: 800;
-$slideBaseWidth: #{$slidePanelWidth * 4/5};
-$slideBaseHeight: #{$slidePanelHeight * 4/5};
+$slideBaseWidth: $slidePanelWidth * 4 / 5;
+$slideBaseHeight: $slidePanelHeight * 4 / 5;
 $titleLabelWidth: 100;
 $titleLabelHeight: 100;
 $pageToolHeight: 80;
@@ -13,10 +13,30 @@ $pageToolBtnHeight: 80;
 $pageTollBtnWidth: 150;
 $pagePreviewWidth: #{$allSlidesWidth * 9/10};
 $pagePreviewHeight: 180;
+$playSlideWidth: 800;
+$playSlideHeight: 600;
+$overlayWidth: $allSlidesWidth + $slidePanelWidth;
+$overlayHeight: $allSlidesHeight + $slidePanelHeight;
 
 body {
 	width: #{$toolPanelWidth + $slidePanelWidth}px;
 	background-color: #373535;
+}
+
+.overlay {
+	visibility: hidden;
+	position: absolute;
+	background-color: #050000;
+    left: 0px;
+    top: 0px;
+    width: 100%;//#{$overlayWidth}px;
+    height: 100%;//#{$allSlidesHeight}px;
+    z-index: 1000;
+}
+
+.playWindow {
+	margin-left: #{($overlayWidth / 2) - ($slideBaseWidth / 2)}px;
+	margin-top: #{(($allSlidesHeight / 2) - ($slideBaseHeight / 2))}px;
 }
 
 .allSlides {

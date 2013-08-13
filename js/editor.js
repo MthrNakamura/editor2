@@ -3,6 +3,8 @@ $(function() {
 	var currentFile = null;
 	var slideManager = new SlideManager();
 	var slideEditMode = false;
+	var playing = false;
+	var nowShowing = -1;
 
 	/* 初期化 */
 	function init() {
@@ -17,12 +19,28 @@ $(function() {
 		slideEditMode = true;
 	});
 
+	/* スライドショーを開始する */
+	function startSideShow() {
+		var el = document.getElementById('overlay');
+		el.style.visibility = 'visible';
+	}
+	
+	/* スライドショーを終了する */
+	function exitSlideShow() {
+		var el = document.getElementById('overlay');
+		el.style.visibility = 'hidden';
+	}
 
 	/* キーイベント */
 	$(window).keydown(function(e) {
 		if (slideEditMode) return ;
 		//window.alert(selected);
 		switch (e.keyCode) {
+			case 27: //ESC
+				/* スライドの再生を終了 */
+				exitSlideShow();
+				playing = false;
+				break;
 			case 38: //up
 				if (selected > 0) {
 					/* これまで選択していたスライドを保存 */
@@ -42,6 +60,14 @@ $(function() {
 				showSlideSet();
 				/* サムネイルをフォーカス */
 				focusPreview(selected-1, selected);
+				break;
+			case 37: /* 左 */
+			case 38: /* 上 */
+				backSlidePage();
+				break;
+			case 39: /* 右 */
+			case 40: /* 下 */
+				nextSlidePage();
 				break;
 			case 46: //delete
 				removeSlide();
@@ -145,10 +171,34 @@ $(function() {
 		init();
 		showSlideSet();
 	};
+	
+	/* スライドショーのページを一つ前に */
+	function backSlidePage() {
+		if (nowShowing == -1) return ;
+		setSlideShowPage(nowShowing-1);
+	}
+	/* スライドショーのページを一つ後に */
+	function nextSlidePage() {
+		if (nowShowing == -1) return ;
+		setSlideShowPage(nowShowing+1);
+	}
+	
+	/* スライドショーに表示するスライドを設定 */
+	function setSlideShowPage(idx) {
+		if (slideManager.length > idx) {
+			var slideHtml = slideManager.slideSets[idx].slide.el;
+			$('.playWindow').html(slideHtml);
+			nowShowing = idx;
+		} else {
+			exitSlideShow();
+		}
+	}
+	
 	/* スライドを再生する */
 	var playPage = function(e) {
-		e.preventDefault();
-		$('.slide').reveal();
+		playing = true;
+		setSlideShowPage(0);
+		startSideShow();
 	};
 	
 	/* サムネイルをフォーカスする */
@@ -192,8 +242,9 @@ $(function() {
 	$('.loadPage').click(loadPage);
 	/* 新規スライドを作成 */
 	$('.newPage').click(newPage);
-	/* スライドを再生 */
-	$('.palyAll').click(playPage);
+	/* ページを再生 */
+	$('.playAll').click(playPage);
+	
 	/* スライドとサムネイルを表示 */
 	function showSlideSet() {
 		/* サムネイルを表示 */
